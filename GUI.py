@@ -1,7 +1,8 @@
 import tkinter
 from tkinter import ttk
 from tkinter import *
-
+ 
+ #INPUT SECTION
 def sel():
    selection = "You selected the option " + var.get()
    #label.config(text = selection)
@@ -17,7 +18,7 @@ def getTemp():
 
 root = Tk()
 root.title('Pulsar GUI')
-root.geometry('500x500')
+root.geometry('600x600')
 
 rows = 0
 while rows < 50:
@@ -36,12 +37,12 @@ n.enable_traversal()
 
 var = StringVar()
 var.set("L")
+StarTypeLabel = Label(f1, text = "Choose a star: ")
+StarTypeLabel.pack(anchor = W)
 R1 = Radiobutton(f1, text="Cepheid", variable=var, value="CepheidFile.txt", command=sel)
 R1.pack( anchor = W )
 R2 = Radiobutton(f1, text="RR-Lyrae", variable=var, value="RRLyraeFile.txt", command=sel)
 R2.pack( anchor = W )
-R3 = Radiobutton(f1, text="Common", variable=var, value="myfile.txt", command=sel)
-R3.pack( anchor = W)
 
 MassLabel = Label(f1, text = "Mass")
 MassLabel.pack(anchor = W)
@@ -78,7 +79,12 @@ MaxAmpLabel.pack(anchor = W)
 MaxAmpEntry = Entry(f1, bd = 15)
 MaxAmpEntry.pack(anchor = W)
 
+ProgressBar = Text(f1, height = 1, width = 50)
+ProgressBar.pack(side = LEFT)
+quote = "Something is happening"
+ProgressBar.insert(END, quote)
+
 submit = Button(f1, text = "Submit", command = getTemp)
-submit.pack(side = RIGHT)
+submit.pack(side = BOTTOM)
 
 root.mainloop()
