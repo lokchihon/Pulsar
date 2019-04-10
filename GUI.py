@@ -1,8 +1,12 @@
-import tkinter
+
+import matplotlib.figure as mpl
+import numpy as np
+import tkinter as tk
 from tkinter import ttk
 from tkinter import *
- 
- #INPUT SECTION
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+import matplotlib.backends.tkagg as tkagg
+
 def sel():
    selection = "You selected the option " + var.get()
    #label.config(text = selection)
@@ -15,10 +19,32 @@ def getTemp():
 	data[1] = TempEntry.get() + '\n'
 	with open(type_str,'w') as f:
 		f.writelines(data)
+		
+def draw_figure(canvas, figure, loc=(0, 0)):
+    """ Draw a matplotlib figure onto a Tk canvas
+
+    loc: location of top-left corner of figure on canvas in pixels.
+    Inspired by matplotlib source: lib/matplotlib/backends/backend_tkagg.py
+    """
+    figure_canvas_agg = FigureCanvasAgg(figure)
+    figure_canvas_agg.draw()
+    figure_x, figure_y, figure_w, figure_h = figure.bbox.bounds
+    figure_w, figure_h = int(figure_w), int(figure_h)
+    photo = tk.PhotoImage(master=canvas, width=figure_w, height=figure_h)
+
+    # Position: convert from top-left anchor to center anchor
+    canvas.create_image(loc[0] + figure_w/2, loc[1] + figure_h/2, image=photo)
+
+    # Unfortunately, there's no accessor for the pointer to the native renderer
+    tkagg.blit(photo, figure_canvas_agg.get_renderer()._renderer, colormode=2)
+
+    # Return a handle which contains a reference to the photo object
+    # which must be kept live or else the picture disappears
+    return photo
 
 root = Tk()
 root.title('Pulsar GUI')
-root.geometry('600x600')
+root.geometry('500x500')
 
 rows = 0
 while rows < 50:
@@ -29,7 +55,7 @@ while rows < 50:
 n = ttk.Notebook(root)
 n.grid(row=1, column=1, columnspan=50, rowspan=49, sticky='NESW')
 f1 = ttk.Frame(n) #first page
-f2 = ttk.Frame(n) #second page
+f2 = Canvas(n) #second page
 n.add(f1, text = 'Input Tab')
 n.add(f2, text = 'Output Tab')
 n.select(f1)
@@ -37,12 +63,11 @@ n.enable_traversal()
 
 var = StringVar()
 var.set("L")
-StarTypeLabel = Label(f1, text = "Choose a star: ")
-StarTypeLabel.pack(anchor = W)
 R1 = Radiobutton(f1, text="Cepheid", variable=var, value="CepheidFile.txt", command=sel)
 R1.pack( anchor = W )
 R2 = Radiobutton(f1, text="RR-Lyrae", variable=var, value="RRLyraeFile.txt", command=sel)
 R2.pack( anchor = W )
+
 
 MassLabel = Label(f1, text = "Mass")
 MassLabel.pack(anchor = W)
@@ -86,5 +111,17 @@ ProgressBar.insert(END, quote)
 
 submit = Button(f1, text = "Submit", command = getTemp)
 submit.pack(side = BOTTOM)
+
+
+X = np.linspace(0, 2 * np.pi, 50)
+Y = np.sin(X)
+
+fig = mpl.Figure(figsize=(2, 1))
+ax = fig.add_axes([0, 0, 1, 1])
+ax.plot(X, Y)
+
+fig_x, fig_y = 100, 100
+fig_photo = draw_figure(f2, fig, loc=(fig_x, fig_y))
+fig_w, fig_h = fig_photo.width(), fig_photo.height()
 
 root.mainloop()
