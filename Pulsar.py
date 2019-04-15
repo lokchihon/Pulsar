@@ -1,27 +1,56 @@
+
 class Pulsar:
-	def _init_ (star, m, lum, x, z, crr,maxA,maxP, temp):
-		star.mass = m
-		star.luminosity = lum
-		star.xComp= x
-		star.zComp = z
-		star.cOrRR = crr
-		star.maxAmp = maxA
-		star.maxPeriodNum = maxP
-		star.temperature = temp
-	def getMass():
-		return mass
-	def getLum():
-		return luminosity
-	def getX():
-		return xComp
-	def getCRR():
-		return cOrRR
-	def getTemp():
-		return temp
-	def getMaxAmp():
-		return maxAmp
-	def getMaxPeriodNum():
-		return maxPeriodNum
-	def toString():
-		string toStr = " mass: " + mass + " luminosity " + luminosity + " X: " + xComp +" Z: " + zComp
-		return toStr
+
+
+	def __init__(self, m = 42, lum=43, x=44, z=45, crr= 'RR', maxA=47, maxP= 48, temp= 49):
+		self.mass = m
+		self.luminosity = lum
+		self.xComp= x
+		self.zComp = z
+		self.cOrRR = crr
+		self.maxAmp = maxA
+		self.maxPeriodNum = maxP
+		self.temperature = temp
+
+
+	def getMass(self):
+		return self.mass
+
+	def getLum(self):
+		return self.luminosity
+
+	def getX(self):
+		return self.xComp
+
+	def getCRR(self):
+		return self.cOrRR
+
+	def getTemp(self):
+		return self.temp
+
+	def getMaxAmp(self):
+		return self.maxAmp
+
+	def getMaxPeriodNum(self):
+		return self.maxPeriodNum
+
+	def editRRFile(self, mass, lum, x,z, temp, maxA, maxP):
+		lines[7]={0,1,2,3,4,5,6}
+
+	def editCommonFile(self, mass, lum, x,z, temp, maxA, maxP):
+		lines[7] = {0, 1, 2, 3, 4, 5, 6}
+
+	def editCepheidFile(self, mass, lum, x,z, temp, maxA, maxP):
+		lines[7] = {0, 1, 2, 3, 4, 5, 6}
+		return lines
+
+	def main(self):
+		lines = editCepheidFile()
+		for x in lines:
+			print(x)
+	
+
+
+
+		
+
