@@ -3,6 +3,7 @@
 # to the type of star the user selects on the GUI
 # Finally, This script will call the rsp program using the Unix command line
 # Created by the Radiation Hydrodynamic Pulsar enthusiasts
+import os
 
 
 class Pulsar:
@@ -22,37 +23,41 @@ class Pulsar:
 # along with the chosen file when the script is run.
 
 # Andrew, this is the area you're concerned with
-mass = 42.5
-lum = 251.3
-x = 45.2
-z = 42.3
-corr = "C"
-maxA = 45.4
-maxP = 46.8
-temp = 47.9
+mass = 42.5678
+lum = 251.3214
+x = 45.2345
+z = 42.3456
+corr = "RR"
+maxA = 45.4321
+maxP = 46.8765
+temp = 47.9012
 
 # Pulsar object
 pulsar1 = Pulsar(mass, lum, x, z, corr, maxA, maxP, temp)
 
 # edit common file
-filePath = "common.txt"  # File path for Common File here
-ogFilePath = "ogCommon.txt"  # Duplicate file path for Common File here
+filePath = "inlist_rsp_common"  # File path for Common File here
+ogFilePath = "commonFormat.txt"  # Duplicate file path for Common File here
 commonFile = open(filePath, "w")
 ogCommon = open(ogFilePath, "r")
 
 # Takes input from duplicate file and scans it, then writes it to the file we are editing.
 # If we don't do this, then everything leading up to our variables is deleted
-for ln in range(0, 11):
+for ln in range(0, 41):
     commonScan = ogCommon.readline()
     commonFile.write("%s" % commonScan)
 ogCommon.readline()
 # This statement processes the equivalent line in ogCommon file to the line we are editing in
-# working common file  edit our variables in the common file file
-commonFile.write("Max Amplitude %f\n" % pulsar1.maxAmp)
+# working common file edit our variables in the common file file
+commonFile.write("         RSP_mass = %f ! (Msun)\n" % pulsar1.mass)
 ogCommon.readline()
-commonFile.write("Max Period: %f\n" % pulsar1.maxPeriodNum)
+commonFile.write("         RSP_Teff = %f ! (K)\n" % pulsar1.temperature)
 ogCommon.readline()
-commonFile.write("Star Type: %s\n" % pulsar1.cOrRR)
+commonFile.write("         RSP_L = %f ! (Lsun)\n" % pulsar1.luminosity)
+ogCommon.readline()
+commonFile.write("         RSP_X = %f ! hydrogen mass fraction\n" % pulsar1.xComp)
+ogCommon.readline()
+commonFile.write("         RSP_Z = %f ! metals mass fraction\n" % pulsar1.zComp)
 
 # Find end of file so I can scan from the original file and write it to the file we are editing
 # If we don't do this it will delete everything after our variables
@@ -67,28 +72,31 @@ ogCommon.close()
 
 
 # check which file is used and edit
+
+
+# if file selected is RR:
 if pulsar1.cOrRR == "RR":
-    filePath = "RR.txt"  # File path for cepheid here
-    ogFilePath = "Allstar.txt"  # Duplicate file path for Cepheid here
+    filePath = "inlist_rsp_RR_Lyrae"  # File path for cepheid here
+    ogFilePath = "RRLyraeFormat.txt"  # Duplicate file path for Cepheid here
     file = open(filePath, "w")
     ogFile = open(ogFilePath, "r")
 
     # Takes input from duplicate file and scans it, then writes it to the file we are editing.
     # If we don't do this, then everything leading up to our variables is deleted
-    for line in range(0, 11):
+    for line in range(0, 23):
         scanned = ogFile.readline()
         file.write("%s" % scanned)
     ogFile.readline()
     # edit the variables in our RR_Leary file
-    file.write("Mass: %f \n" % pulsar1.mass)
+    file.write("   RSP_mass = %fd0\n" % pulsar1.mass)
     ogFile.readline()  # This statement processes the equivalent line in ogFile to the line we are editing in file
-    file.write("Luminosity: %f\n" % pulsar1.luminosity)
+    file.write("   RSP_Teff = %f\n" % pulsar1.temperature)
     ogFile.readline()
-    file.write("X Component: %f\n" % pulsar1.xComp)
+    file.write("   RSP_L = %fd0\n" % pulsar1.luminosity)
     ogFile.readline()
-    file.write("Z Component %f\n" % pulsar1.zComp)
+    file.write("   RSP_X = %fd0\n" % pulsar1.xComp)
     ogFile.readline()
-    file.write("Temperature: %f\n" % pulsar1.temperature)
+    file.write("   RSP_Z = %fd0\n" % pulsar1.zComp)
 
     # Find end of file so I can scan from the original file and write it to the file we are editing
     # If we don't do this it will delete everything after our variables
@@ -100,29 +108,31 @@ if pulsar1.cOrRR == "RR":
     # close files
     file.close()
     ogFile.close()
-    
+
+
+# If file selected is Cepheid
 elif pulsar1.cOrRR == "C":
-    filePath = "C.txt"  # File path for cepheid here
-    ogFilePath = "Allstar.txt"  # Duplicate file path for Cepheid here
+    filePath = "inlist_rsp_Cepheid"  # File path for cepheid here
+    ogFilePath = "cepheidFormat.txt"  # Duplicate file path for Cepheid here
     file = open(filePath, "w")
     ogFile = open(ogFilePath, "r")
 
     # Takes input from duplicate file and scans it, then writes it to the file we are editing.
     # If we don't do this, then everything leading up to our variables is deleted
-    for line in range(0, 11):
+    for line in range(0, 29):
         scanned = ogFile.readline()
         file.write("%s" % scanned)
     ogFile.readline()  # This statement processes the equivalent line in ogFile to the line we are editing in file
     # edit the our variables in the Cepheid files
-    file.write("Mass: %f \n" % pulsar1.mass)
+    file.write("   RSP_mass = %fd0\n" % pulsar1.mass)
+    ogFile.readline()  # This statement processes the equivalent line in ogFile to the line we are editing in file
+    file.write("   RSP_Teff = %f\n" % pulsar1.temperature)
     ogFile.readline()
-    file.write("Luminosity: %f\n" % pulsar1.luminosity)
+    file.write("   RSP_L = %fd0\n" % pulsar1.luminosity)
     ogFile.readline()
-    file.write("X Component: %f\n" % pulsar1.xComp)
+    file.write("   RSP_X = %fd0\n" % pulsar1.xComp)
     ogFile.readline()
-    file.write("Z Component %f\n" % pulsar1.zComp)
-    ogFile.readline()
-    file.write("Temperature: %f\n" % pulsar1.temperature)
+    file.write("   RSP_Z = %fd0\n" % pulsar1.zComp)
 
     # Find end of duplicate file so I can scan from the original file and write it to the file we are
     # editing If we don't do this it will delete everything after our variables
@@ -133,6 +143,5 @@ elif pulsar1.cOrRR == "C":
     # Close files
     file.close()
     ogFile.close()
-    
 
 
