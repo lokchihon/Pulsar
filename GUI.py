@@ -11,7 +11,7 @@ import re
 
 def helper():
     r = re.compile("^[0-9]*(?:\.[0-9]{0,4})?$")
-    if MassEntry.get() == "" or LumEntry.get() == "" or TempEntry.get() == "" or XEntry.get() == ""  or ZEntry.get() == "" or MaxPeriodEntry.get() == "" or MaxAmpEntry.get() == "":
+    if MassEntry.get() == "" or LumEntry.get() == "" or TempEntry.get() == "" or XEntry.get() == "" or ZEntry.get() == "" or MaxPeriodEntry.get() == "" or MaxAmpEntry.get() == "":
         ProgressBar.delete(1.0, END)
         ProgressBar.insert(END, "Variables cannot be left blank")
         return False
@@ -45,6 +45,7 @@ def linking():
         notification_message = "Successfully created a Cepheid" if name == "C" else "Successfully created an RR-Lyrae"
         ProgressBar.delete(1.0, END)
         ProgressBar.insert(END, notification_message)
+        Pulsar.editFiles(pulsar)
         return pulsar
     else:
         return None
