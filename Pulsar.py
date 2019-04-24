@@ -36,7 +36,7 @@ temp = 47.9012
 pulsar1 = Pulsar(mass, lum, x, z, corr, maxA, maxP, temp)
 
 # edit common file
-filePath = "inlist_rsp_common"  # File path for Common File here
+filePath = "/mesa/star/inlist_rsp_common"  # File path for Common File here
 ogFilePath = "commonFormat.txt"  # Duplicate file path for Common File here
 commonFile = open(filePath, "w")
 ogCommon = open(ogFilePath, "r")
@@ -76,7 +76,7 @@ ogCommon.close()
 
 # if file selected is RR:
 if pulsar1.cOrRR == "RR":
-    filePath = "inlist_rsp_RR_Lyrae"  # File path for cepheid here
+    filePath = "/mesa/sar/test_suite/rsp_RR_Lyrae/inlist_rsp_RR_Lyrae"  # File path for cepheid here
     ogFilePath = "RRLyraeFormat.txt"  # Duplicate file path for Cepheid here
     file = open(filePath, "w")
     ogFile = open(ogFilePath, "r")
@@ -112,7 +112,7 @@ if pulsar1.cOrRR == "RR":
 
 # If file selected is Cepheid
 elif pulsar1.cOrRR == "C":
-    filePath = "inlist_rsp_Cepheid"  # File path for cepheid here
+    filePath = "/mesa/star/test_suite/rsp_Cepheid/##inlist_rsp_Cepheid"  # File path for cepheid here
     ogFilePath = "cepheidFormat.txt"  # Duplicate file path for Cepheid here
     file = open(filePath, "w")
     ogFile = open(ogFilePath, "r")
@@ -143,5 +143,5 @@ elif pulsar1.cOrRR == "C":
     # Close files
     file.close()
     ogFile.close()
-
+## source mesaStarter.txt... cd mesa/star/test_suite
 
