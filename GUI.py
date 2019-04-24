@@ -42,7 +42,7 @@ def linking():
     if helper():
         pulsar = Pulsar(float(MassEntry.get()), float(LumEntry.get()), float(XEntry.get()), float(ZEntry.get()), name,
                         float(MaxAmpEntry.get()), float(MaxPeriodEntry.get()), float(TempEntry.get()))
-        notification_message = "Successfully created a Cepheid" if name == "CC" else "Successfully created an RR-Lyrae"
+        notification_message = "Successfully created a Cepheid" if name == "C" else "Successfully created an RR-Lyrae"
         ProgressBar.delete(1.0, END)
         ProgressBar.insert(END, notification_message)
         return pulsar
@@ -94,7 +94,7 @@ n.enable_traversal()
 
 var = StringVar()
 var.set("L")
-R1 = Radiobutton(f1, text="Cepheid", variable=var, value="CC", command=None)
+R1 = Radiobutton(f1, text="Cepheid", variable=var, value="C", command=None)
 R1.pack(anchor=W)
 R2 = Radiobutton(f1, text="RR-Lyrae", variable=var, value="RR", command=None)
 R2.pack(anchor=W)
