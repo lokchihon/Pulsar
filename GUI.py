@@ -190,11 +190,6 @@ MaxPeriodLabel.pack(anchor=W)
 MaxPeriodEntry = Entry(f1, bd=2)
 MaxPeriodEntry.pack(anchor=W)
 
-MaxAmpLabel = Label(f1, text="Max Amp")
-MaxAmpLabel.pack(anchor=W)
-MaxAmpEntry = Entry(f1, bd=2)
-MaxAmpEntry.pack(anchor=W)
-
 ProgressBar = Text(f1, height=1, width=50)
 ProgressBar.pack(side=LEFT)
 quote = "Something is happening"
