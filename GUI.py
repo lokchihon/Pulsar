@@ -33,22 +33,70 @@ def helper():
                 return True
 
 
+def override():
+    fileIo.set("F")
+
+
 def linking():
-    name = var.get()
-    if name == "L":
-        ProgressBar.delete(1.0, END)
-        ProgressBar.insert(END, "A pulsar must be selected")
-        return None
-    if helper():
-        pulsar = Pulsar(float(MassEntry.get()), float(LumEntry.get()), float(XEntry.get()), float(ZEntry.get()), name,
-                        float(MaxAmpEntry.get()), float(MaxPeriodEntry.get()), float(TempEntry.get()))
-        notification_message = "Successfully created a Cepheid" if name == "C" else "Successfully created an RR-Lyrae"
-        ProgressBar.delete(1.0, END)
-        ProgressBar.insert(END, notification_message)
-        Pulsar.editFiles(pulsar)
-        return pulsar
+    fff = fileIo.get()
+    if fff == "InputFile":
+        daf = field.get()
+        try:
+            file = open(daf, "r")
+            corrr = file.readline().strip("\n")
+
+            if corrr != "RR" and corrr != "C":
+                ProgressBar.delete(1.0, END)
+                ProgressBar.insert(END, "Invalid value for pulsar type. Must be 'C' or 'RR'")
+                return
+
+            mass = float(file.readline())
+            if mass < 0 or mass > 100:
+                ProgressBar.delete(1.0, END)
+                ProgressBar.insert(END, "Mass must be between 0 and 100")
+                return
+
+            temperature = float(file.readline())
+            if temperature < 3000 or temperature > 10000:
+                ProgressBar.delete(1.0, END)
+                ProgressBar.insert(END, "Temperature must be between 3000 and 10000")
+                return
+
+            luminosity = float(file.readline())
+            if luminosity < 0 or luminosity > 100000:
+                ProgressBar.delete(1.0, END)
+                ProgressBar.insert(END, "Luminosity must be between 0 and 100000")
+            x = float(file.readline())
+            y = float(file.readline())
+            period = float(file.readline())
+            amp = float(file.readline())
+
+            py = Pulsar(mass, luminosity, x, y, corrr, amp, period, temperature)
+            ProgressBar.delete(1.0, END)
+            ProgressBar.insert(END, "Pulsar created successfully")
+
+        except FileNotFoundError:
+            ProgressBar.delete(1.0, END)
+            ProgressBar.insert(END, "File not found.")
+
+        except ValueError:
+            ProgressBar.delete(1.0, END)
+            ProgressBar.insert(END, "All values in file must be numbers except pulsar type")
     else:
-        return None
+        if name == "L":
+            ProgressBar.delete(1.0, END)
+            ProgressBar.insert(END, "A pulsar must be selected")
+            return None
+        if helper():
+            pulsar = Pulsar(float(MassEntry.get()), float(LumEntry.get()), float(XEntry.get()), float(ZEntry.get()), name,
+                            float(MaxAmpEntry.get()), float(MaxPeriodEntry.get()), float(TempEntry.get()))
+            notification_message = "Successfully created a Cepheid" if name == "C" else "Successfully created an RR-Lyrae"
+            ProgressBar.delete(1.0, END)
+            ProgressBar.insert(END, notification_message)
+            Pulsar.editFiles(pulsar)
+            return pulsar
+        else:
+            return None
 
 
 def draw_figure(canvas, figure, loc=(0, 0)):
@@ -95,10 +143,22 @@ n.enable_traversal()
 
 var = StringVar()
 var.set("L")
-R1 = Radiobutton(f1, text="Cepheid", variable=var, value="C", command=None)
+R1 = Radiobutton(f1, text="Cepheid", variable=var, value="C", command=override)
 R1.pack(anchor=W)
-R2 = Radiobutton(f1, text="RR-Lyrae", variable=var, value="RR", command=None)
+R2 = Radiobutton(f1, text="RR-Lyrae", variable=var, value="RR", command=override)
 R2.pack(anchor=W)
+
+fileIo = StringVar()
+fileIo.set("F")
+fr = Frame(f1, width=200, height=300, borderwidth=2, relief="ridge")
+fr.place(x=250, y=67)
+R3 = Radiobutton(fr, text ="Input File", variable=fileIo, value="InputFile", command=None)
+R3.pack( anchor = W, padx=0, pady=5 )
+fileLabel = Label(fr, text="File Address")
+fileLabel.pack( anchor = W )
+field = Entry(fr, bd=2)
+field.pack( anchor = W )
+
 
 MassLabel = Label(f1, text="Mass")
 MassLabel.pack(anchor=W)
