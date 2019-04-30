@@ -8,13 +8,12 @@ import os
 
 class Pulsar:
     # Sets the parameters for a pulsar object
-    def __init__(self, m, lum, x, z, crr, maxA, maxP, temp):
+    def __init__(self, m, lum, x, z, crr, maxP, temp):
         self.mass = m
         self.luminosity = lum
         self.xComp = x
         self.zComp = z
         self.cOrRR = crr
-        self.maxAmp = maxA
         self.maxPeriodNum = maxP
         self.temperature = temp
 
