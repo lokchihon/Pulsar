@@ -32,11 +32,10 @@ def helper():
                     (float(MaxAmpEntry.get()) >= 0):
                 return True
 
+
 def override():
     fileIo.set("F")
 
-def changeVars():
-    var.set("L")
 
 def linking():
     fff = fileIo.get()
@@ -99,112 +98,108 @@ def linking():
         else:
             return None
 
-# def draw_figure(canvas, figure, loc=(0, 0)):
-#     """ Draw a matplotlib figure onto a Tk canvas
 
-#     loc: location of top-left corner of figure on canvas in pixels.
-#     Inspired by matplotlib source: lib/matplotlib/backends/backend_tkagg.py
-#     """
-#     figure_canvas_agg = FigureCanvasAgg(figure)
-#     figure_canvas_agg.draw()
-#     figure_x, figure_y, figure_w, figure_h = figure.bbox.bounds
-#     figure_w, figure_h = int(figure_w), int(figure_h)
-#     photo = tk.PhotoImage(master=canvas, width=figure_w, height=figure_h)
+def draw_figure(canvas, figure, loc=(0, 0)):
+    """ Draw a matplotlib figure onto a Tk canvas
+    loc: location of top-left corner of figure on canvas in pixels.
+    Inspired by matplotlib source: lib/matplotlib/backends/backend_tkagg.py
+    """
+    figure_canvas_agg = FigureCanvasAgg(figure)
+    figure_canvas_agg.draw()
+    figure_x, figure_y, figure_w, figure_h = figure.bbox.bounds
+    figure_w, figure_h = int(figure_w), int(figure_h)
+    photo = tk.PhotoImage(master=canvas, width=figure_w, height=figure_h)
 
-#     # Position: convert from top-left anchor to center anchor
-#     canvas.create_image(loc[0] + figure_w / 2, loc[1] + figure_h / 2, image=photo)
+    # Position: convert from top-left anchor to center anchor
+    canvas.create_image(loc[0] + figure_w / 2, loc[1] + figure_h / 2, image=photo)
 
-#     # Unfortunately, there's no accessor for the pointer to the native renderer
-#     tkagg.blit(photo, figure_canvas_agg.get_renderer()._renderer, colormode=2)
+    # Unfortunately, there's no accessor for the pointer to the native renderer
+    tkagg.blit(photo, figure_canvas_agg.get_renderer()._renderer, colormode=2)
 
-#     # Return a handle which contains a reference to the photo object
-#     # which must be kept live or else the picture disappears
-#     return photo
-
-class GUIO(Frame):
-
-    def __init__(self):
-        super().__init__()
-
-        self.initUI()
+    # Return a handle which contains a reference to the photo object
+    # which must be kept live or else the picture disappears
+    return photo
 
 
-    def initUI(self):
-        self.pack(fill=BOTH, expand=True)
+root = Tk()
+root.title('Pulsar GUI')
+root.geometry('500x500')
 
-        self.columnconfigure(50, weight=1)
-        self.columnconfigure(50, pad=7)
-        self.rowconfigure(50, weight=1)
-        self.rowconfigure(50, pad=7)
+rows = 0
+while rows < 50:
+    root.rowconfigure(rows, weight=1)
+    root.columnconfigure(rows, weight=1)
+    rows += 1
 
-        n = ttk.Notebook(self)
-        n.grid(row=1, column=1, columnspan=50, rowspan=49, sticky='NESW')
-        f1 = ttk.Frame(n)
-        f2 = ttk.Frame(n)
-        n.add(f1, text='Input Tab')
-        n.add(f2, text='Output Tab')
-        n.select(f1)
-        n.enable_traversal()
+n = ttk.Notebook(root)
+n.grid(row=1, column=1, columnspan=50, rowspan=49, sticky='NESW')
+f1 = ttk.Frame(n)
+f2 = ttk.Frame(n)
+n.add(f1, text='Input Tab')
+n.add(f2, text='Output Tab')
+n.select(f1)
+n.enable_traversal()
 
-        var = StringVar()
-        var.set("L")
-        R1 = Radiobutton(f1, text="Cepheid", variable=var, value="C", command=override)
-        R1.pack(anchor=W)
-        R2 = Radiobutton(f1, text="RR-Lyrae", variable=var, value="RR", command=override)
-        R2.pack(anchor=W)
+fileIo = StringVar()
+fileIo.set("F")
 
-        fileIo = StringVar()
-        fileIo.set("F")
+var = StringVar()
+var.set("L")
 
-        fr = Frame(f1, width=200, height=300, borderwidth=2, relief="ridge")
-        fr.place(x=250, y=67)
-        R3 = Radiobutton(fr, text ="Input File", variable=fileIo, value="InputFile", command=changeVars)
-        R3.pack( anchor = W, padx=0, pady=5 )
-        fileLabel = Label(fr, text="File Address")
-        fileLabel.pack( anchor = W )
-        field = Entry(fr, bd=2)
-        field.pack( anchor = W )
+R1 = Radiobutton(f1, text="Cepheid", variable=var, value="C", command=override)
+R1.pack(anchor=W)
+R2 = Radiobutton(f1, text="RR-Lyrae", variable=var, value="RR", command=override)
+R2.pack(anchor=W)
 
-        MassLabel = Label(f1, text="Mass")
-        MassLabel.pack(anchor=W)
-        MassEntry = Entry(f1, bd=2)
-        MassEntry.pack(anchor=W)
+fr = Frame(f1, width=200, height=200, borderwidth=2, relief="ridge")
+fr.place(x=250, y=67)
+R3 = Radiobutton(fr, text ="Input File", variable=fileIo, value="InputFile", command=None)
+R3.pack( anchor = W, padx=0, pady=5 )
+fileLabel = Label(fr, text="File Address")
+fileLabel.pack( anchor = W )
+field = Entry(fr, bd=2)
+field.pack( anchor = W )
 
-        TempLabel = Label(f1, text="Temperature")
-        TempLabel.pack(anchor=W)
-        TempEntry = Entry(f1, bd=2)
-        TempEntry.pack(anchor=W)
+MassLabel = Label(f1, text="Mass")
+MassLabel.pack(anchor=W)
+MassEntry = Entry(f1, bd=2)
+MassEntry.pack(anchor=W)
 
-        LumLabel = Label(f1, text="Luminosity")
-        LumLabel.pack(anchor=W)
-        LumEntry = Entry(f1, bd=2)
-        LumEntry.pack(anchor=W)
+TempLabel = Label(f1, text="Temperature")
+TempLabel.pack(anchor=W)
+TempEntry = Entry(f1, bd=2)
+TempEntry.pack(anchor=W)
 
-        XLabel = Label(f1, text="Hydrogen Composition")
-        XLabel.pack(anchor=W)
-        XEntry = Entry(f1, bd=2)
-        XEntry.pack(anchor=W)
+LumLabel = Label(f1, text="Luminosity")
+LumLabel.pack(anchor=W)
+LumEntry = Entry(f1, bd=2)
+LumEntry.pack(anchor=W)
 
-        ZLabel = Label(f1, text="Metal Composition")
-        ZLabel.pack(anchor=W)
-        ZEntry = Entry(f1, bd=2)
-        ZEntry.pack(anchor=W)
+XLabel = Label(f1, text="Hydrogen Composition")
+XLabel.pack(anchor=W)
+XEntry = Entry(f1, bd=2)
+XEntry.pack(anchor=W)
 
-        MaxPeriodLabel = Label(f1, text="Max Period")
-        MaxPeriodLabel.pack(anchor=W)
-        MaxPeriodEntry = Entry(f1, bd=2)
-        MaxPeriodEntry.pack(anchor=W)
+ZLabel = Label(f1, text="Metal Composition")
+ZLabel.pack(anchor=W)
+ZEntry = Entry(f1, bd=2)
+ZEntry.pack(anchor=W)
 
-        ProgressBar = Text(f1, height=1, width=50)
-        ProgressBar.pack(side=LEFT)
-        quote = "Something is happening"
-        ProgressBar.insert(END, quote)
+MaxPeriodLabel = Label(f1, text="Max Period")
+MaxPeriodLabel.pack(anchor=W)
+MaxPeriodEntry = Entry(f1, bd=2)
+MaxPeriodEntry.pack(anchor=W)
 
-        # Creates a pulsar object
-        submit = Button(f1, text="Submit", command=linking)
-        submit.pack(side=BOTTOM)
+ProgressBar = Text(f1, height=1, width=50)
+ProgressBar.pack(side=LEFT)
+quote = "Something is happening"
+ProgressBar.insert(END, quote)
 
-        values_list=["model_number","star_age","star_age_day",
+# Creates a pulsar object
+submit = Button(f1, text="Submit", command=linking)
+submit.pack(side=BOTTOM)
+
+values_list=["model_number","star_age","star_age_day",
                 "rsp_phase","rsp_GREKM","rsp_GREKM_avg_abs","rsp_DeltaR",
                 "rsp_DeltaMag","rsp_period_in_days","rsp_num_periods",
                 "log_dt_sec","radius","log_R","v_surf_km_s",
@@ -216,40 +211,20 @@ class GUIO(Frame):
                 "log_lum_band V","log_lum_band I","log_lum_band bb_V",
                 "log_lum_band bb_I","num_retries"]
 
-        comboBox1 = ttk.Combobox(f2, values = sorted(values_list))
-        comboBox2 = ttk.Combobox(f2, values = sorted(values_list))
+comboBox1 = ttk.Combobox(f2, values = sorted(values_list))
+comboBox2 = ttk.Combobox(f2, values = sorted(values_list))
 
-        xLabel = Label(f2, text = "X Value")
-        xLabel.pack(anchor=W)
-        comboBox1.pack(anchor=W, padx=5, pady=10)
-        comboBox1.current(0)
+xLabel = Label(f2, text = "X Value")
+xLabel.pack(anchor=W)
+comboBox1.pack(anchor=W, padx=5, pady=10)
+comboBox1.current(0)
         
-        yLabel = Label(f2, text = "Y Value")
-        yLabel.pack(anchor=W)
-        comboBox2.pack(anchor=W, padx=5, pady=10)
-        comboBox2.current(0) 
+yLabel = Label(f2, text = "Y Value")
+yLabel.pack(anchor=W)
+comboBox2.pack(anchor=W, padx=5, pady=10)
+comboBox2.current(0) 
 
-        submit = Button(f2, text="Make Graph", command=linking)
-        submit.pack(side=BOTTOM)
-        
-        # X = np.linspace(0, 2 * np.pi, 50)
-        # Y = np.sin(X)
+submit2 = Button(f2, text="Make Graph", command=linking)
+submit2.pack(side=BOTTOM)
 
-        # fig = mpl.Figure(figsize=(2, 1))
-        # ax = fig.add_axes([0, 0, 1, 1])
-        # ax.plot(X, Y)
-
-        # fig_x, fig_y = 100, 100
-        # fig_photo = draw_figure(f2, fig, loc=(fig_x, fig_y))
-        # fig_w, fig_h = fig_photo.width(), fig_photo.height()
-
-
-def main():
-    root = Tk()
-    root.title('Pulsar GUI')
-    root.geometry("500x500")
-    app = GUIO()
-    root.mainloop()
-
-if __name__ == '__main__':
-    main()
+root.mainloop()
