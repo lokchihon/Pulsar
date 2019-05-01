@@ -7,7 +7,8 @@ from tkinter import *
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 import matplotlib.backends.tkagg as tkagg
 import re
-
+import mesa_reader as mr
+import matplotlib.pyplot as pl
 
 def helper():
     r = re.compile("^[0-9]*(?:\.[0-9]{0,4})?$")
@@ -35,6 +36,16 @@ def helper():
 
 def override():
     fileIo.set("F")
+	
+def graphing():
+	h = mr.MesaData('LOGS/history.data')
+	r1 = h.data(comboBox1.get())
+	r2 = h.data(comboBox2.get())
+	pl.plot(r1, r2)
+	pl.xlabel(comboBox1.get())
+	pl.ylabel(comboBox2.get())
+	pl.gca().invert_xaxis()
+	pl.show()
 
 
 def linking():
@@ -224,7 +235,7 @@ yLabel.pack(anchor=W)
 comboBox2.pack(anchor=W, padx=5, pady=10)
 comboBox2.current(0) 
 
-submit2 = Button(f2, text="Make Graph", command=linking)
+submit2 = Button(f2, text="Make Graph", command=graphing)
 submit2.pack(side=BOTTOM)
 
 root.mainloop()
