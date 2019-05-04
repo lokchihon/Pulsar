@@ -25,7 +25,7 @@ class Pulsar:
         # Andrew, this is the area you're concerned with
     
         # edit common file
-        filePath = "inlist_rsp_common"  # File path for Common File here
+        filePath = "mesa/star/inlist_rsp_common"  # File path for Common File here
         ogFilePath = "commonFormat.txt"  # Duplicate file path for Common File here
         commonFile = open(filePath, "w")
         ogCommon = open(ogFilePath, "r")
@@ -63,7 +63,7 @@ class Pulsar:
     
         # if file selected is RR:
         if pulsar1.cOrRR == "RR":
-            filePath = "inlist_rsp_RR_Lyrae"  # File path for cepheid here
+            filePath = "mesa/star/test_suite/rsp_RR_Lyrae/inlist_rsp_RR_Lyrae"  # File path for cepheid here
             ogFilePath = "RRLyraeFormat.txt"  # Duplicate file path for Cepheid here
             file = open(filePath, "w")
             ogFile = open(ogFilePath, "r")
@@ -99,7 +99,7 @@ class Pulsar:
     
         # If file selected is Cepheid
         elif pulsar1.cOrRR == "C":
-            filePath = "inlist_rsp_Cepheid"  # File path for cepheid here
+            filePath = "mesa/star/test_suite/rsp_Cepheid/inlist_rsp_Cepheid"  # File path for cepheid here
             ogFilePath = "cepheidFormat.txt"  # Duplicate file path for Cepheid here
             file = open(filePath, "w")
             ogFile = open(ogFilePath, "r")
@@ -130,3 +130,25 @@ class Pulsar:
             # Close files
             file.close()
             ogFile.close()
+
+            currDir = os.getcwd()
+	    os.chdir('..')
+	    currDir = os.getcwd()
+
+	    #goes up one directory from working directory
+	    os.chdir('..')
+
+	    #doesn't work
+	    #setting environment
+	    #os.system("source finProject.mesaStarter.txt")
+
+	    #if editing Cepheid
+	    os.chdir("mesa/star/test_suite/rsp_Cepheid")
+
+	    #if editing RR Lyrae
+	    #os.chdir("mesa/star/test_suite/rsp_RR_Lyrae")
+
+	    os.system("./mk")
+	    os.system("./rn")
+
+	    

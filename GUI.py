@@ -38,7 +38,7 @@ def override():
     fileIo.set("F")
 	
 def graphing():
-	h = mr.MesaData('LOGS/history.data')
+	h = mr.MesaData('mesa/star/test_suite/rsp_Cepheid/LOGS/history.data')
 	r1 = h.data(comboBox1.get())
 	r2 = h.data(comboBox2.get())
 	pl.plot(r1, r2)
@@ -218,9 +218,7 @@ values_list=["model_number","star_age","star_age_day",
                 "max_abs_v_div_cs","dt_div_min_dr_div_cs","luminosity",
                 "gravity","log_L","effective_T","log_g","log_Teff",
                 "photosphere_L","photosphere_r","photosphere_T",
-                "photosphere_v_km_s","photosphere_v_div_cs",
-                "log_lum_band V","log_lum_band I","log_lum_band bb_V",
-                "log_lum_band bb_I","num_retries"]
+                "photosphere_v_km_s","photosphere_v_div_cs","num_retries"]
 
 comboBox1 = ttk.Combobox(f2, values = sorted(values_list))
 comboBox2 = ttk.Combobox(f2, values = sorted(values_list))
