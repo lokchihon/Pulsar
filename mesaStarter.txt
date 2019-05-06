@@ -3,4 +3,3 @@ setenv OMP_NUM_THREADS 4
 setenv MESASDK_ROOT /home/lhon/mesasdk
 source $MESASDK_ROOT/bin/mesasdk_init.csh
 
-https://stackoverflow.com/questions/7040592/calling-the-source-command-from-subprocess-popen

@@ -9,6 +9,7 @@ import matplotlib.backends.tkagg as tkagg
 import re
 import mesa_reader as mr
 import matplotlib.pyplot as pl
+import os
 
 def helper():
     r = re.compile("^[0-9]*(?:\.[0-9]{0,4})?$")
@@ -28,8 +29,7 @@ def helper():
             ProgressBar.insert(END, "Mass, Temperature, and/or Luminosity are invalid")
             return False
         else:
-            if (float(XEntry.get()) >= 0) and (float(ZEntry.get()) >= 0) and (float(MaxPeriodEntry.get()) >= 0) and \
-                    (float(MaxAmpEntry.get()) >= 0):
+            if (float(XEntry.get()) >= 0) and (float(ZEntry.get()) >= 0) and (float(MaxPeriodEntry.get()) >= 0):
                 return True
 
 
@@ -98,7 +98,7 @@ def linking():
             return None
         if helper():
             pulsar = Pulsar(float(MassEntry.get()), float(LumEntry.get()), float(XEntry.get()), float(ZEntry.get()), name,
-                            float(MaxAmpEntry.get()), float(MaxPeriodEntry.get()), float(TempEntry.get()))
+                            float(MaxPeriodEntry.get()), float(TempEntry.get()))
             notification_message = "Successfully created a Cepheid" if name == "C" else "Successfully created an RR-Lyrae"
             ProgressBar.delete(1.0, END)
             ProgressBar.insert(END, notification_message)
@@ -128,7 +128,6 @@ def draw_figure(canvas, figure, loc=(0, 0)):
     # Return a handle which contains a reference to the photo object
     # which must be kept live or else the picture disappears
     return photo
-
 
 root = Tk()
 root.title('Pulsar GUI')

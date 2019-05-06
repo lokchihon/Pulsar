@@ -18,18 +18,19 @@ class Pulsar:
         self.temperature = temp
 
     def editFiles(self):
+        os.chdir('..')
         pulsar1 = self
         # Variables are to be updated by the GUI. This will automatically update the pulsar1 object variables
         # along with the chosen file when the script is run.
     
         # Andrew, this is the area you're concerned with
-    
+   
         # edit common file
         filePath = "mesa/star/inlist_rsp_common"  # File path for Common File here
-        ogFilePath = "commonFormat.txt"  # Duplicate file path for Common File here
+        ogFilePath = "Pulsar/commonFormat.txt"  # Duplicate file path for Common File here
         commonFile = open(filePath, "w")
         ogCommon = open(ogFilePath, "r")
-    
+
         # Takes input from duplicate file and scans it, then writes it to the file we are editing.
         # If we don't do this, then everything leading up to our variables is deleted
         for ln in range(0, 41):
@@ -64,7 +65,7 @@ class Pulsar:
         # if file selected is RR:
         if pulsar1.cOrRR == "RR":
             filePath = "mesa/star/test_suite/rsp_RR_Lyrae/inlist_rsp_RR_Lyrae"  # File path for cepheid here
-            ogFilePath = "RRLyraeFormat.txt"  # Duplicate file path for Cepheid here
+            ogFilePath = "Pulsar/RRLyraeFormat.txt"  # Duplicate file path for Cepheid here
             file = open(filePath, "w")
             ogFile = open(ogFilePath, "r")
     
@@ -77,7 +78,7 @@ class Pulsar:
             # edit the variables in our RR_Leary file
             file.write("   RSP_mass = %fd0\n" % pulsar1.mass)
             ogFile.readline()  # This statement processes the equivalent line in ogFile to the line we are editing in file
-            file.write("   RSP_Teff = %f\n" % pulsar1.temperature)
+            file.write("   RSP_Teff = %fd0\n" % pulsar1.temperature)
             ogFile.readline()
             file.write("   RSP_L = %fd0\n" % pulsar1.luminosity)
             ogFile.readline()
@@ -100,20 +101,20 @@ class Pulsar:
         # If file selected is Cepheid
         elif pulsar1.cOrRR == "C":
             filePath = "mesa/star/test_suite/rsp_Cepheid/inlist_rsp_Cepheid"  # File path for cepheid here
-            ogFilePath = "cepheidFormat.txt"  # Duplicate file path for Cepheid here
+            ogFilePath = "Pulsar/cepheidFormat.txt"  # Duplicate file path for Cepheid here
             file = open(filePath, "w")
             ogFile = open(ogFilePath, "r")
     
             # Takes input from duplicate file and scans it, then writes it to the file we are editing.
             # If we don't do this, then everything leading up to our variables is deleted
-            for line in range(0, 29):
+            for line in range(0, 28):
                 scanned = ogFile.readline()
                 file.write("%s" % scanned)
             ogFile.readline()  # This statement processes the equivalent line in ogFile to the line we are editing in file
             # edit the our variables in the Cepheid files
             file.write("   RSP_mass = %fd0\n" % pulsar1.mass)
             ogFile.readline()  # This statement processes the equivalent line in ogFile to the line we are editing in file
-            file.write("   RSP_Teff = %f\n" % pulsar1.temperature)
+            file.write("   RSP_Teff = %fd0\n" % pulsar1.temperature)
             ogFile.readline()
             file.write("   RSP_L = %fd0\n" % pulsar1.luminosity)
             ogFile.readline()
@@ -131,24 +132,27 @@ class Pulsar:
             file.close()
             ogFile.close()
 
-            currDir = os.getcwd()
-	    os.chdir('..')
-	    currDir = os.getcwd()
+        #currDir = os.getcwd()
 
 	    #goes up one directory from working directory
-	    os.chdir('..')
+        #os.chdir('..')
 
 	    #doesn't work
 	    #setting environment
 	    #os.system("source finProject.mesaStarter.txt")
 
 	    #if editing Cepheid
-	    os.chdir("mesa/star/test_suite/rsp_Cepheid")
+        os.chdir("mesa/star/test_suite/rsp_Cepheid")
 
-	    #if editing RR Lyrae
+        #if editing RR Lyrae
 	    #os.chdir("mesa/star/test_suite/rsp_RR_Lyrae")
 
-	    os.system("./mk")
-	    os.system("./rn")
+        os.system("./mk")
+        os.system("./rn") 
+        os.chdir('..') #mesa/star/test_suite
+        os.chdir('..') #mesa/star
+        os.chdir('..') #mesa
+        os.chdir('..') #youre in home dir
 
-	    
+        dirpath = os.getcwd()
+        print("currDir = " + dirpath)
