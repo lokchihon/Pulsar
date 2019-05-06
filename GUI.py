@@ -12,13 +12,12 @@ import matplotlib.pyplot as pl
 
 def helper():
     r = re.compile("^[0-9]*(?:\.[0-9]{0,4})?$")
-    if MassEntry.get() == "" or LumEntry.get() == "" or TempEntry.get() == "" or XEntry.get() == "" or ZEntry.get() == "" or MaxPeriodEntry.get() == "" or MaxAmpEntry.get() == "":
+    if MassEntry.get() == "" or LumEntry.get() == "" or TempEntry.get() == "" or XEntry.get() == "" or ZEntry.get() == "" or MaxPeriodEntry.get() == "":
         ProgressBar.delete(1.0, END)
         ProgressBar.insert(END, "Variables cannot be left blank")
         return False
     if not (bool(r.match(MassEntry.get())) and bool(r.match(LumEntry.get())) and bool(r.match(TempEntry.get())) and
-            bool(r.match(XEntry.get())) and bool(r.match(ZEntry.get())) and bool(r.match(MaxPeriodEntry.get())) and
-            bool(r.match(MaxAmpEntry.get()))):
+            bool(r.match(XEntry.get())) and bool(r.match(ZEntry.get())) and bool(r.match(MaxPeriodEntry.get()))):
         ProgressBar.delete(1.0, END)
         ProgressBar.insert(END, "Must contain a number up to four decimal places")
         return False
@@ -36,7 +35,7 @@ def helper():
 
 def override():
     fileIo.set("F")
-	
+
 def graphing():
 	h = mr.MesaData('mesa/star/test_suite/rsp_Cepheid/LOGS/history.data')
 	r1 = h.data(comboBox1.get())
@@ -55,7 +54,6 @@ def linking():
         try:
             file = open(daf, "r")
             corrr = file.readline().strip("\n")
-
             if corrr != "RR" and corrr != "C":
                 ProgressBar.delete(1.0, END)
                 ProgressBar.insert(END, "Invalid value for pulsar type. Must be 'C' or 'RR'")
@@ -78,11 +76,10 @@ def linking():
                 ProgressBar.delete(1.0, END)
                 ProgressBar.insert(END, "Luminosity must be between 0 and 100000")
             x = float(file.readline())
-            y = float(file.readline())
+            z = float(file.readline())
             period = float(file.readline())
-            amp = float(file.readline())
 
-            py = Pulsar(mass, luminosity, x, y, corrr, amp, period, temperature)
+            py = Pulsar(mass, luminosity, x, z, corrr, period, temperature)
             ProgressBar.delete(1.0, END)
             ProgressBar.insert(END, "Pulsar created successfully")
 
@@ -92,8 +89,9 @@ def linking():
 
         except ValueError:
             ProgressBar.delete(1.0, END)
-            ProgressBar.insert(END, "All values in file must be numbers except pulsar type")
+            ProgressBar.insert(END, "Wrong syntax for file")
     else:
+        name = var.get()
         if name == "L":
             ProgressBar.delete(1.0, END)
             ProgressBar.insert(END, "A pulsar must be selected")
@@ -227,11 +225,11 @@ xLabel = Label(f2, text = "X Value")
 xLabel.pack(anchor=W)
 comboBox1.pack(anchor=W, padx=5, pady=10)
 comboBox1.current(0)
-        
+
 yLabel = Label(f2, text = "Y Value")
 yLabel.pack(anchor=W)
 comboBox2.pack(anchor=W, padx=5, pady=10)
-comboBox2.current(0) 
+comboBox2.current(0)
 
 submit2 = Button(f2, text="Make Graph", command=graphing)
 submit2.pack(side=BOTTOM)
