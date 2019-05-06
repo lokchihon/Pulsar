@@ -18,6 +18,7 @@ class Pulsar:
         self.temperature = temp
 
     def editFiles(self):
+        print(os.getcwd())
         os.chdir('..')
         pulsar1 = self
         # Variables are to be updated by the GUI. This will automatically update the pulsar1 object variables
@@ -153,6 +154,7 @@ class Pulsar:
         os.chdir('..') #mesa/star
         os.chdir('..') #mesa
         os.chdir('..') #youre in home dir
+        #os.system('cd ~')
 
         dirpath = os.getcwd()
         print("currDir = " + dirpath)

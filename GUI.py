@@ -37,6 +37,10 @@ def override():
     fileIo.set("F")
 
 def graphing():
+	if os.getcwd() == "/home/lhon/Pulsar":
+		os.chdir('..')
+	dirpath = os.getcwd()
+	print("currDir = " + dirpath)
 	h = mr.MesaData('mesa/star/test_suite/rsp_Cepheid/LOGS/history.data')
 	r1 = h.data(comboBox1.get())
 	r2 = h.data(comboBox2.get())
