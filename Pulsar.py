@@ -58,7 +58,7 @@ class Pulsar:
                 scanned = ogCommon.readline()
                 commonFile.write("%s" % scanned)
         ogCommon.readline()
-	commonFile.write("         RSP_max_num_periods = %d ! ignore if < 0\n" % pulsar1.maxPeriodNum)
+        commonFile.write("         RSP_max_num_periods = %d ! ignore if < 0\n" % pulsar1.maxPeriodNum)
 
         scanned = ogCommon.readline()
         while scanned != "":
