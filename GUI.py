@@ -9,6 +9,7 @@ import matplotlib.backends.tkagg as tkagg
 import re
 import mesa_reader as mr
 import matplotlib.pyplot as pl
+import os
 
 def helper():
     r = re.compile("^[0-9]*(?:\.[0-9]{0,4})?$")
@@ -28,8 +29,7 @@ def helper():
             ProgressBar.insert(END, "Mass, Temperature, and/or Luminosity are invalid")
             return False
         else:
-            if (float(XEntry.get()) >= 0) and (float(ZEntry.get()) >= 0) and (float(MaxPeriodEntry.get()) >= 0) and \
-                    (float(MaxAmpEntry.get()) >= 0):
+            if (float(XEntry.get()) >= 0) and (float(ZEntry.get()) >= 0) and (float(MaxPeriodEntry.get()) >= 0):
                 return True
 
 
@@ -37,6 +37,10 @@ def override():
     fileIo.set("F")
 
 def graphing():
+	if os.getcwd() == "/home/lhon/Pulsar":
+		os.chdir('..')
+	dirpath = os.getcwd()
+	print("currDir = " + dirpath)
 	h = mr.MesaData('mesa/star/test_suite/rsp_Cepheid/LOGS/history.data')
 	r1 = h.data(comboBox1.get())
 	r2 = h.data(comboBox2.get())
@@ -106,8 +110,7 @@ def linking():
             ProgressBar.insert(END, "A pulsar must be selected")
             return None
         if helper():
-            pulsar = Pulsar(float(MassEntry.get()), float(LumEntry.get()), float(XEntry.get()), float(ZEntry.get()), name,
-                            float(MaxAmpEntry.get()), float(MaxPeriodEntry.get()), float(TempEntry.get()))
+            pulsar = Pulsar(float(MassEntry.get()), float(LumEntry.get()), float(XEntry.get()), float(ZEntry.get()), name, float(MaxPeriodEntry.get()), float(TempEntry.get()))
             notification_message = "Successfully created a Cepheid" if name == "C" else "Successfully created an RR-Lyrae"
             ProgressBar.delete(1.0, END)
             ProgressBar.insert(END, notification_message)
@@ -141,7 +144,7 @@ def draw_figure(canvas, figure, loc=(0, 0)):
 
 root = Tk()
 root.title('Pulsar GUI')
-root.geometry('500x500')
+root.geometry('500x400')
 
 rows = 0
 while rows < 50:
@@ -153,8 +156,8 @@ n = ttk.Notebook(root)
 n.grid(row=1, column=1, columnspan=50, rowspan=49, sticky='NESW')
 f1 = ttk.Frame(n)
 f2 = ttk.Frame(n)
-n.add(f1, text='Input Tab')
-n.add(f2, text='Output Tab')
+n.add(f1, text='Data Entry')
+n.add(f2, text='Graphing')
 n.select(f1)
 n.enable_traversal()
 
@@ -208,14 +211,14 @@ MaxPeriodLabel.pack(anchor=W)
 MaxPeriodEntry = Entry(f1, bd=2)
 MaxPeriodEntry.pack(anchor=W)
 
-ProgressBar = Text(f1, height=1, width=50)
-ProgressBar.pack(side=LEFT)
-quote = "Something is happening"
+ProgressBar = Text(f1, height=1, width=60)
+ProgressBar.pack(anchor=W)
+quote = "Enter the data and hit the Submit button to run MESA-RSP"
 ProgressBar.insert(END, quote)
 
 # Creates a pulsar object
 submit = Button(f1, text="Submit", command=linking)
-submit.pack(side=BOTTOM)
+submit.pack(anchor=S, padx=5, pady=10)
 
 values_list=["model_number","star_age","star_age_day",
                 "rsp_phase","rsp_GREKM","rsp_GREKM_avg_abs","rsp_DeltaR",
@@ -241,6 +244,6 @@ comboBox2.pack(anchor=W, padx=5, pady=10)
 comboBox2.current(0)
 
 submit2 = Button(f2, text="Make Graph", command=graphing)
-submit2.pack(side=BOTTOM)
+submit2.pack(anchor=S, padx=5, pady=10)
 
 root.mainloop()
