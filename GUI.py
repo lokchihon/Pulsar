@@ -3,6 +3,8 @@ from Pulsar import Pulsar
 import numpy as np
 import tkinter as tk
 from tkinter import ttk
+from tkinter import simpledialog
+from tkinter import filedialog
 from tkinter import *
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 import matplotlib.backends.tkagg as tkagg
@@ -37,11 +39,17 @@ def override():
     fileIo.set("F")
 
 def graphing():
-	if os.getcwd() == "/home/lhon/Pulsar":
+	if os.getcwd() != answer1:
 		os.chdir('..')
 	dirpath = os.getcwd()
-	#print("currDir = " + dirpath)
-	h = mr.MesaData('mesa/star/test_suite/rsp_Cepheid/LOGS/history.data')
+	print("currDir = " + dirpath)
+    gname = var2.get()
+    if gname == "RR":
+        h = mr.MesaData('mesa/star/test_suite/rsp_RR_Lyrae/LOGS/history.data')
+    elif gname == "C":
+        h = mr.MesaData('mesa/star/test_suite/rsp_Cepheid/LOGS/history.data')
+    else: 
+        ProgressBar2.insert(END, "Choose which star to graph")
 	r1 = h.data(comboBox1.get())
 	r2 = h.data(comboBox2.get())
 	pl.plot(r1, r2)
@@ -50,6 +58,20 @@ def graphing():
 	pl.gca().invert_xaxis()
 	pl.show()
 
+def rerunning():
+    if os.getcwd() != answer1:
+        os.chdir('..')
+    dirpath = os.getcwd()
+    print("currDir = " + dirpath)
+    rname = var.get()
+    if rname == "RR":
+        dirpath = os.chdir("mesa/star/test_suite/rsp_RR_Lyrae")
+    elif rname == "C":
+        dirpath = os.chdir("mesa/star/test_suite/rsp_Cepheid")
+    else:
+        ProgressBar.insert(END, "Choose which star to rerun")
+    os.system("./mk")
+    os.system("./rn")
 
 def linking():
     fff = fileIo.get()
@@ -110,7 +132,7 @@ def linking():
             ProgressBar.insert(END, "A pulsar must be selected")
             return None
         if helper():
-            pulsar = Pulsar(float(MassEntry.get()), float(LumEntry.get()), float(XEntry.get()), float(ZEntry.get()), name, float(MaxPeriodEntry.get()), float(TempEntry.get()))
+            pulsar = Pulsar(float(MassEntry.get()), float(LumEntry.get()), float(XEntry.get()), float(ZEntry.get()), name, float(MaxPeriodEntry.get()), float(TempEntry.get()), float(MaxModelEntry.get()), answer1)
             notification_message = "Successfully created a Cepheid" if name == "C" else "Successfully created an RR-Lyrae"
             ProgressBar.delete(1.0, END)
             ProgressBar.insert(END, notification_message)
@@ -143,8 +165,15 @@ def draw_figure(canvas, figure, loc=(0, 0)):
 
 
 root = Tk()
+root.withdraw()
+
+messagebox.showinfo("Input","Please select the directory that mesa, mesasdk, the Pulsar project are located in", parent = root)
+answer1 = filedialog.askdirectory()
+print("mesaDir = ", answer1)
+
+root.deiconify()
 root.title('Pulsar GUI')
-root.geometry('500x400')
+root.geometry('500x500')
 
 rows = 0
 while rows < 50:
@@ -211,14 +240,31 @@ MaxPeriodLabel.pack(anchor=W)
 MaxPeriodEntry = Entry(f1, bd=2)
 MaxPeriodEntry.pack(anchor=W)
 
+MaxModelLabel = Label(f1, text="Max Model Number")
+MaxModelLabel.pack(anchor=W)
+MaxModelEntry = Entry(f1, bd=2)
+MaxModelEntry.pack(anchor = W)
+
 ProgressBar = Text(f1, height=1, width=60)
-ProgressBar.pack(anchor=W)
+ProgressBar.pack(anchor=W,pady=10)
 quote = "Enter the data and hit the Submit button to run MESA-RSP"
 ProgressBar.insert(END, quote)
 
 # Creates a pulsar object
 submit = Button(f1, text="Submit", command=linking)
-submit.pack(anchor=S, padx=5, pady=10)
+submit.pack(anchor=S, padx=5, pady=5)
+
+rerun = Button(f1, text = "Rerun", command=rerunning)
+rerun.pack(anchor=S, padx=5, pady=5)
+
+
+var2 = StringVar()
+var2.set("L")
+
+R12 = Radiobutton(f2, text="Cepheid", variable=var2, value="C")
+R12.pack(anchor=W)
+R22 = Radiobutton(f2, text="RR-Lyrae", variable=var2, value="RR")
+R22.pack(anchor=W)
 
 values_list=["model_number","star_age","star_age_day",
                 "rsp_phase","rsp_GREKM","rsp_GREKM_avg_abs","rsp_DeltaR",
@@ -235,15 +281,20 @@ comboBox2 = ttk.Combobox(f2, values = sorted(values_list))
 
 xLabel = Label(f2, text = "X Value")
 xLabel.pack(anchor=W)
-comboBox1.pack(anchor=W, padx=5, pady=10)
+comboBox1.pack(anchor=W, padx=5, pady=5)
 comboBox1.current(0)
 
 yLabel = Label(f2, text = "Y Value")
 yLabel.pack(anchor=W)
-comboBox2.pack(anchor=W, padx=5, pady=10)
+comboBox2.pack(anchor=W, padx=5, pady=5)
 comboBox2.current(0)
 
 submit2 = Button(f2, text="Make Graph", command=graphing)
 submit2.pack(anchor=S, padx=5, pady=10)
+
+ProgressBar2 = Text(f2, height=1, width=60)
+ProgressBar2.pack(anchor=W,pady=10)
+quote2 = "Fill out the above to graph variables"
+ProgressBar2.insert(END, quote)
 
 root.mainloop()
