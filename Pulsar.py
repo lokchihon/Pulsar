@@ -8,7 +8,7 @@ import os
 
 class Pulsar:
     # Sets the parameters for a pulsar object
-    def __init__(self, m, lum, x, z, crr, maxP, temp):
+    def __init__(self, m, lum, x, z, crr, maxP, temp, maxm, dire):
         self.mass = m
         self.luminosity = lum
         self.xComp = x
@@ -16,6 +16,8 @@ class Pulsar:
         self.cOrRR = crr
         self.maxPeriodNum = maxP
         self.temperature = temp
+        self.directory = dire
+        self.maxM = maxm
 
     def editFiles(self):
         if os.getcwd() == "/home/lhon/Pulsar":
@@ -74,9 +76,17 @@ class Pulsar:
     
             # Takes input from duplicate file and scans it, then writes it to the file we are editing.
             # If we don't do this, then everything leading up to our variables is deleted
-            for line in range(0, 19):
+            for line in range(0, 16):
                 scanned = ogFile.readline()
                 file.write("%s" % scanned)
+            ogFile.readline()
+            file.write("   max_model_number = %d \n" % pulsar1.maxM)
+            ogFile.readline()
+            file.write("\n")
+            ogFile.readline()
+            file.write("! RSP controls\n")
+            ogFile.readline()
+            file.write("\n")
             ogFile.readline()
             file.write("   x_integer_ctrl(1) = %d ! which period to check\n" % pulsar1.maxPeriodNum)
             ogFile.readline()
@@ -116,9 +126,17 @@ class Pulsar:
     
             # Takes input from duplicate file and scans it, then writes it to the file we are editing.
             # If we don't do this, then everything leading up to our variables is deleted
-            for line in range(0, 25):
+            for line in range(0, 21):
                 scanned = ogFile.readline()
                 file.write("%s" % scanned)
+            ogFile.readline()
+            file.write("   max_model_number = %d \n" % pulsar1.maxM)
+            ogFile.readline()
+            file.write("\n")
+            ogFile.readline()
+            file.write("! RSP controls\n")
+            ogFile.readline()
+            file.write("\n")
             ogFile.readline()
             file.write("   x_integer_ctrl(1) = %d ! which period to check\n" % pulsar1.maxPeriodNum)
             ogFile.readline()
