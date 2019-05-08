@@ -73,9 +73,15 @@ class Pulsar:
     
             # Takes input from duplicate file and scans it, then writes it to the file we are editing.
             # If we don't do this, then everything leading up to our variables is deleted
-            for line in range(0, 23):
+            for line in range(0, 19):
                 scanned = ogFile.readline()
                 file.write("%s" % scanned)
+            ogFile.readline()
+            file.write("   x_integer_ctrl(1) = %d ! which period to check\n" % pulsar1.maxPeriodNum)
+            ogFile.readline()
+            file.write("   x_ctrl(1) = 0.71262d0 ! expected period (in days)\n")
+            ogFile.readline()
+            file.write("\n")
             ogFile.readline()
             # edit the variables in our RR_Leary file
             file.write("   RSP_mass = %fd0\n" % pulsar1.mass)
@@ -109,9 +115,15 @@ class Pulsar:
     
             # Takes input from duplicate file and scans it, then writes it to the file we are editing.
             # If we don't do this, then everything leading up to our variables is deleted
-            for line in range(0, 28):
+            for line in range(0, 25):
                 scanned = ogFile.readline()
                 file.write("%s" % scanned)
+            ogFile.readline()
+            file.write("   x_integer_ctrl(1) = %d ! which period to check\n" % pulsar1.maxPeriodNum)
+            ogFile.readline()
+            file.write("   x_ctrl(1) = 3.93338d0 ! expected period (in days)\n")
+            ogFile.readLine()
+            file.write("\n")
             ogFile.readline()  # This statement processes the equivalent line in ogFile to the line we are editing in file
             # edit the our variables in the Cepheid files
             file.write("   RSP_mass = %fd0\n" % pulsar1.mass)
