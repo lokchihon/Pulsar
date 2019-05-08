@@ -53,14 +53,7 @@ class Pulsar:
         # Find end of file so I can scan from the original file and write it to the file we are editing
         # If we don't do this it will delete everything after our variables
         scanned = ogCommon.readline()
-        for lin in range(46, 129):
-                commonFile.write("%s" % scanned)
-                scanned = ogCommon.readline()
-                commonFile.write("%s" % scanned)
-        ogCommon.readline()
-        commonFile.write("         RSP_max_num_periods = %d ! ignore if < 0\n" % pulsar1.maxPeriodNum)
-
-        scanned = ogCommon.readline()
+        
         while scanned != "":
             commonFile.write("%s" % scanned)
             scanned = ogCommon.readline()
