@@ -18,8 +18,9 @@ class Pulsar:
         self.temperature = temp
 
     def editFiles(self):
-        print(os.getcwd())
-        os.chdir('..')
+        if os.getcwd() == "/home/lhon/Pulsar":
+		os.chdir('..')
+	print(os.getcwd())
         pulsar1 = self
         # Variables are to be updated by the GUI. This will automatically update the pulsar1 object variables
         # along with the chosen file when the script is run.
