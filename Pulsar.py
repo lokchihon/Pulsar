@@ -101,7 +101,7 @@ class Pulsar:
             while scanned != "":
                 file.write("%s" % scanned)
                 scanned = ogFile.readline()
-    
+            os.chdir("mesa/star/test_suite/rsp_RR_Lyrae")
             # close files
             file.close()
             ogFile.close()
@@ -143,25 +143,11 @@ class Pulsar:
             while scanned != "":
                 file.write("%s" % scanned)
                 scanned = ogFile.readline()
+            os.chdir("mesa/star/test_suite/rsp_Cepheid")
             # Close files
             file.close()
             ogFile.close()
-
-        #currDir = os.getcwd()
-
-	    #goes up one directory from working directory
-        #os.chdir('..')
-
-	    #doesn't work
-	    #setting environment
-	    #os.system("source finProject.mesaStarter.txt")
-
-	    #if editing Cepheid
-        os.chdir("mesa/star/test_suite/rsp_Cepheid")
-
-        #if editing RR Lyrae
-	    #os.chdir("mesa/star/test_suite/rsp_RR_Lyrae")
-
+	    
         os.system("./mk")
         os.system("./rn") 
         os.chdir('..') #mesa/star/test_suite
