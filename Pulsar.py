@@ -94,7 +94,7 @@ class Pulsar:
             file.write("   RSP_X = %fd0\n" % pulsar1.xComp)
             ogFile.readline()
             file.write("   RSP_Z = %fd0\n" % pulsar1.zComp)
-    
+            ogFile.readline() #John did this 
             # Find end of file so I can scan from the original file and write it to the file we are editing
             # If we don't do this it will delete everything after our variables
             scanned = ogFile.readline()
