@@ -20,7 +20,7 @@ class Pulsar:
     def editFiles(self):
         if os.getcwd() == "/home/lhon/Pulsar":
             os.chdir('..')
-        print(os.getcwd())
+        #print(os.getcwd())
         pulsar1 = self
         # Variables are to be updated by the GUI. This will automatically update the pulsar1 object variables
         # along with the chosen file when the script is run.
@@ -156,5 +156,5 @@ class Pulsar:
         os.chdir('..') #youre in home dir
         #os.system('cd ~')
 
-        dirpath = os.getcwd()
-        print("currDir = " + dirpath)
+        #dirpath = os.getcwd()
+        #print("currDir = " + dirpath)
