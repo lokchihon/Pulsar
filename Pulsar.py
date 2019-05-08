@@ -19,8 +19,8 @@ class Pulsar:
 
     def editFiles(self):
         if os.getcwd() == "/home/lhon/Pulsar":
-		os.chdir('..')
-	print(os.getcwd())
+            os.chdir('..')
+        print(os.getcwd())
         pulsar1 = self
         # Variables are to be updated by the GUI. This will automatically update the pulsar1 object variables
         # along with the chosen file when the script is run.
@@ -123,7 +123,7 @@ class Pulsar:
             file.write("   x_integer_ctrl(1) = %d ! which period to check\n" % pulsar1.maxPeriodNum)
             ogFile.readline()
             file.write("   x_ctrl(1) = 3.93338d0 ! expected period (in days)\n")
-            ogFile.readLine()
+            ogFile.readline()
             file.write("\n")
             ogFile.readline()  # This statement processes the equivalent line in ogFile to the line we are editing in file
             # edit the our variables in the Cepheid files
