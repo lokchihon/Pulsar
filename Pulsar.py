@@ -22,7 +22,6 @@ class Pulsar:
         pulsar1 = self
         if os.getcwd() != pulsar1.directory:
             os.chdir('..')
-        #print(os.getcwd())
         
         # Variables are to be updated by the GUI. This will automatically update the pulsar1 object variables
         # along with the chosen file when the script is run.

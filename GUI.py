@@ -64,8 +64,6 @@ def graphing():
 def rerunning():
     if os.getcwd() != answer1:
         os.chdir('..')
-    dirpath = os.getcwd()
-    print("currDir = " + dirpath)
     rname = var.get()
     if rname == "RR":
         dirpath = os.chdir("mesa/star/test_suite/rsp_RR_Lyrae")
@@ -81,6 +79,8 @@ def rerunning():
     ProgressBar.insert("Successful Re-run")
 
 def linking():
+    if os.getcwd != answer1:
+        os.chdir('..')
     fff = fileIo.get()
     if fff == "InputFile":
         daf = field.get()
@@ -93,6 +93,7 @@ def linking():
             # X
             # Z
             # Period
+            # Max Model Number
             file = open(daf, "r")
             corrr = file.readline().strip("\n")
             if corrr != "RR" and corrr != "C":
@@ -119,8 +120,9 @@ def linking():
             x = float(file.readline())
             z = float(file.readline())
             period = float(file.readline())
+            maxMMM = float(file.readline())
 
-            py = Pulsar(mass, luminosity, x, z, corrr, period, temperature)
+            py = Pulsar(mass, luminosity, x, z, corrr, period, temperature, maxMMM, answer1)
             ProgressBar.delete(1.0, END)
             ProgressBar.insert(END, "Pulsar created successfully")
             Pulsar.editFiles(py)
