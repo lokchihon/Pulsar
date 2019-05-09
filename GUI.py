@@ -39,24 +39,25 @@ def override():
     fileIo.set("F")
 
 def graphing():
-	if os.getcwd() != answer1:
-		os.chdir('..')
-	dirpath = os.getcwd()
-	print("currDir = " + dirpath)
+    if os.getcwd() != answer1:
+        os.chdir('..')
     gname = var2.get()
     if gname == "RR":
         h = mr.MesaData('mesa/star/test_suite/rsp_RR_Lyrae/LOGS/history.data')
     elif gname == "C":
         h = mr.MesaData('mesa/star/test_suite/rsp_Cepheid/LOGS/history.data')
     else: 
+	ProgressBar2.delete(1.0, END)
         ProgressBar2.insert(END, "Choose which star to graph")
-	r1 = h.data(comboBox1.get())
-	r2 = h.data(comboBox2.get())
-	pl.plot(r1, r2)
-	pl.xlabel(comboBox1.get())
-	pl.ylabel(comboBox2.get())
-	pl.gca().invert_xaxis()
-	pl.show()
+    ProgressBar2.delete(1.0, END)
+    ProgressBar2.insert(END, "Processing...")
+    r1 = h.data(comboBox1.get())
+    r2 = h.data(comboBox2.get())
+    pl.plot(r1, r2)
+    pl.xlabel(comboBox1.get())
+    pl.ylabel(comboBox2.get())
+    pl.gca().invert_xaxis()
+    pl.show()
 
 def rerunning():
     if os.getcwd() != answer1:
@@ -70,6 +71,8 @@ def rerunning():
         dirpath = os.chdir("mesa/star/test_suite/rsp_Cepheid")
     else:
         ProgressBar.insert(END, "Choose which star to rerun")
+    ProgressBar2.delete(1.0, END)
+    ProgressBar2.insert(END, "Processing...")
     os.system("./mk")
     os.system("./rn")
 
@@ -132,6 +135,8 @@ def linking():
             ProgressBar.insert(END, "A pulsar must be selected")
             return None
         if helper():
+            ProgressBar2.delete(1.0, END)
+            ProgressBar2.insert(END, "Processing...")
             pulsar = Pulsar(float(MassEntry.get()), float(LumEntry.get()), float(XEntry.get()), float(ZEntry.get()), name, float(MaxPeriodEntry.get()), float(TempEntry.get()), float(MaxModelEntry.get()), answer1)
             notification_message = "Successfully created a Cepheid" if name == "C" else "Successfully created an RR-Lyrae"
             ProgressBar.delete(1.0, END)
