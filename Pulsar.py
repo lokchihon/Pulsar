@@ -7,7 +7,6 @@ import os
 
 class Pulsar:
     # Sets the parameters for a pulsar object
-    def __init__(self, m, lum, x, z, crr, maxP, temp):
     def __init__(self, m, lum, x, z, crr, maxP, temp, maxm, dire):
         self.mass = m
         self.luminosity = lum
@@ -20,10 +19,11 @@ class Pulsar:
         self.maxM = maxm
 
     def editFiles(self):
-        if os.getcwd() == "/home/lhon/Pulsar":
+        pulsar1 = self
+        if os.getcwd() == pulsar.directory:
             os.chdir('..')
         #print(os.getcwd())
-        pulsar1 = self
+        
         # Variables are to be updated by the GUI. This will automatically update the pulsar1 object variables
         # along with the chosen file when the script is run.
     
@@ -75,7 +75,6 @@ class Pulsar:
 
             # Takes input from duplicate file and scans it, then writes it to the file we are editing.
             # If we don't do this, then everything leading up to our variables is deleted
-            for line in range(0, 19):
             for line in range(0, 16):
                 scanned = ogFile.readline()
                 file.write("%s" % scanned)
@@ -126,7 +125,6 @@ class Pulsar:
 
             # Takes input from duplicate file and scans it, then writes it to the file we are editing.
             # If we don't do this, then everything leading up to our variables is deleted
-            for line in range(0, 25):
             for line in range(0, 21):
                 scanned = ogFile.readline()
                 file.write("%s" % scanned)
