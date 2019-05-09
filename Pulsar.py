@@ -7,6 +7,7 @@ import os
 
 class Pulsar:
     # Sets the parameters for a pulsar object
+    def __init__(self, m, lum, x, z, crr, maxP, temp):
     def __init__(self, m, lum, x, z, crr, maxP, temp, maxm, dire):
         self.mass = m
         self.luminosity = lum
@@ -15,15 +16,14 @@ class Pulsar:
         self.cOrRR = crr
         self.maxPeriodNum = maxP
         self.temperature = temp
-        self.maxM = maxm 
-        self.homedir = dire
+        self.directory = dire
+        self.maxM = maxm
 
     def editFiles(self):
-        pulsar1 = self
-        if os.getcwd() != pulsar1.homedir:
+        if os.getcwd() == "/home/lhon/Pulsar":
             os.chdir('..')
         #print(os.getcwd())
-        
+        pulsar1 = self
         # Variables are to be updated by the GUI. This will automatically update the pulsar1 object variables
         # along with the chosen file when the script is run.
     
@@ -34,7 +34,6 @@ class Pulsar:
         ogFilePath = "Pulsar/commonFormat.txt"  # Duplicate file path for Common File here
         commonFile = open(filePath, "w")
         ogCommon = open(ogFilePath, "r")
-
         # Takes input from duplicate file and scans it, then writes it to the file we are editing.
         # If we don't do this, then everything leading up to our variables is deleted
         for ln in range(0, 41):
@@ -73,12 +72,21 @@ class Pulsar:
             ogFilePath = "Pulsar/RRLyraeFormat.txt"  # Duplicate file path for Cepheid here
             file = open(filePath, "w")
             ogFile = open(ogFilePath, "r")
-    
+
             # Takes input from duplicate file and scans it, then writes it to the file we are editing.
             # If we don't do this, then everything leading up to our variables is deleted
             for line in range(0, 19):
+            for line in range(0, 16):
                 scanned = ogFile.readline()
                 file.write("%s" % scanned)
+            ogFile.readline()
+            file.write("   max_model_number = %d \n" % pulsar1.maxM)
+            ogFile.readline()
+            file.write("\n")
+            ogFile.readline()
+            file.write("! RSP controls\n")
+            ogFile.readline()
+            file.write("\n")
             ogFile.readline()
             file.write("   x_integer_ctrl(1) = %d ! which period to check\n" % pulsar1.maxPeriodNum)
             ogFile.readline()
@@ -115,12 +123,21 @@ class Pulsar:
             ogFilePath = "Pulsar/cepheidFormat.txt"  # Duplicate file path for Cepheid here
             file = open(filePath, "w")
             ogFile = open(ogFilePath, "r")
-    
+
             # Takes input from duplicate file and scans it, then writes it to the file we are editing.
             # If we don't do this, then everything leading up to our variables is deleted
             for line in range(0, 25):
+            for line in range(0, 21):
                 scanned = ogFile.readline()
                 file.write("%s" % scanned)
+            ogFile.readline()
+            file.write("   max_model_number = %d \n" % pulsar1.maxM)
+            ogFile.readline()
+            file.write("\n")
+            ogFile.readline()
+            file.write("! RSP controls\n")
+            ogFile.readline()
+            file.write("\n")
             ogFile.readline()
             file.write("   x_integer_ctrl(1) = %d ! which period to check\n" % pulsar1.maxPeriodNum)
             ogFile.readline()
@@ -149,7 +166,7 @@ class Pulsar:
             # Close files
             file.close()
             ogFile.close()
-	    
+        
         os.system("./mk")
         os.system("./rn") 
         os.chdir('..') #mesa/star/test_suite
