@@ -20,7 +20,7 @@ class Pulsar:
 
     def editFiles(self):
         pulsar1 = self
-        if os.getcwd() == pulsar.directory:
+        if os.getcwd() != pulsar1.directory:
             os.chdir('..')
         #print(os.getcwd())
         

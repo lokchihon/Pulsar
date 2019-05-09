@@ -47,17 +47,19 @@ def graphing():
     elif gname == "C":
         h = mr.MesaData('mesa/star/test_suite/rsp_Cepheid/LOGS/history.data')
     else: 
-	ProgressBar2.delete(1.0, END)
+        ProgressBar2.delete(1.0, END)
         ProgressBar2.insert(END, "Choose which star to graph")
-    ProgressBar2.delete(1.0, END)
-    ProgressBar2.insert(END, "Processing...")
     r1 = h.data(comboBox1.get())
     r2 = h.data(comboBox2.get())
+    ProgressBar2.delete(1.0, END)
+    ProgressBar2.insert(END, "Processing...")
     pl.plot(r1, r2)
     pl.xlabel(comboBox1.get())
     pl.ylabel(comboBox2.get())
     pl.gca().invert_xaxis()
     pl.show()
+    ProgressBar2.delete(1.0,END)
+    ProgressBar2.insert("Successful Graph")
 
 def rerunning():
     if os.getcwd() != answer1:
@@ -71,10 +73,12 @@ def rerunning():
         dirpath = os.chdir("mesa/star/test_suite/rsp_Cepheid")
     else:
         ProgressBar.insert(END, "Choose which star to rerun")
-    ProgressBar2.delete(1.0, END)
-    ProgressBar2.insert(END, "Processing...")
+    ProgressBar.delete(1.0, END)
+    ProgressBar.insert(END, "Processing...")
     os.system("./mk")
     os.system("./rn")
+    ProgressBar.delete(1.0,END)
+    ProgressBar.insert("Successful Re-run")
 
 def linking():
     fff = fileIo.get()
@@ -135,8 +139,6 @@ def linking():
             ProgressBar.insert(END, "A pulsar must be selected")
             return None
         if helper():
-            ProgressBar2.delete(1.0, END)
-            ProgressBar2.insert(END, "Processing...")
             pulsar = Pulsar(float(MassEntry.get()), float(LumEntry.get()), float(XEntry.get()), float(ZEntry.get()), name, float(MaxPeriodEntry.get()), float(TempEntry.get()), float(MaxModelEntry.get()), answer1)
             notification_message = "Successfully created a Cepheid" if name == "C" else "Successfully created an RR-Lyrae"
             ProgressBar.delete(1.0, END)
@@ -174,7 +176,6 @@ root.withdraw()
 
 messagebox.showinfo("Input","Please select the directory that mesa, mesasdk, the Pulsar project are located in", parent = root)
 answer1 = filedialog.askdirectory()
-print("mesaDir = ", answer1)
 
 root.deiconify()
 root.title('Pulsar GUI')
@@ -300,6 +301,6 @@ submit2.pack(anchor=S, padx=5, pady=10)
 ProgressBar2 = Text(f2, height=1, width=60)
 ProgressBar2.pack(anchor=W,pady=10)
 quote2 = "Fill out the above to graph variables"
-ProgressBar2.insert(END, quote)
+ProgressBar2.insert(END, quote2)
 
 root.mainloop()
